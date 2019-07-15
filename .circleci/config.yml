@@ -43,7 +43,7 @@ workflows:
    jobs:
      - Hello-World
      - I-Have-Code
-     - Run-With-Node
+     - Run-With-Node:
          requires:
            - Hello-World
      - Now-Complete
