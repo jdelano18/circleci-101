@@ -3,6 +3,8 @@ jobs:
   Hello-World:
     docker:
       - image: alpine:3.7
+    docker:
+      - image: circleci/python:3.7  # primary container for the build job
     steps:
       - run:
           name: Hello World
