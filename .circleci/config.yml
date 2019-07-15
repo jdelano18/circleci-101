@@ -19,7 +19,7 @@ jobs:
           command: |
             sudo pip install pipenv
             pipenv install
-            source venv/bin/activate
+            pipenv shell
             pwd
             ls -al
             python3 hello.py
