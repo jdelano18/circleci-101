@@ -41,9 +41,9 @@ workflows:
  version: 2
  Example_Workflow:
    jobs:
-     - Hello-World:
-     - I-Have-Code:
-     - Run-With-Node:
+     - Hello-World
+     - I-Have-Code
+     - Run-With-Node
          requires:
            - Hello-World
-     - Now-Complete:
+     - Now-Complete
