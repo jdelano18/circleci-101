@@ -19,6 +19,7 @@ jobs:
           command: |
             ls -al
             echo '^^^That should look familiar^^^'
+            python --version
             python3 hello.py
   Run-With-Node:
     docker:
