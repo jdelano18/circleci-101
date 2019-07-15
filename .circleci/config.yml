@@ -1,52 +1,78 @@
-version: 2.0
+version: 2
 jobs:
-  Hello-World:
+  build:
+    working_directory: ~/circleci-101
     docker:
-      - image: alpine:3.7
-    docker:
-      - image: circleci/python:3.7  # primary container for the build job
-    steps:
-      - run:
-          name: Hello World
-          command: |
-            echo 'Hello World!'
-            echo 'This is the delivery pipeline'
-  I-Have-Code:
-    docker:
-      - image: alpine:3.7
+      - image: circleci/python:3.7
+        environment:
+          PIPENV_VENV_IN_PROJECT: true
+#           DATABASE_URL: postgresql://root@localhost/circle_test?sslmode=disable
+#       - image: circleci/postgres:9.6.2
+#         environment:
+#           POSTGRES_USER: root
+#           POSTGRES_DB: circle_test
     steps:
       - checkout
+      - run: sudo chown -R circleci:circleci /usr/local/bin
+      - run: sudo chown -R circleci:circleci /usr/local/lib/python3.7/site-packages
+      - restore_cache:
+          key: deps10-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
       - run:
-          name: Code Has Arrived
           command: |
+            sudo pip install pipenv
+            pipenv install
+            pwd
             ls -al
-            echo '^^^That should look familiar^^^'
-            python --version
-            python3 hello.py
-  Run-With-Node:
-    docker:
-      - image: circleci/node:10-browsers
-    steps:
-      - run:
-          name: Running In A Container With Node
-          command: |
-            node -v
-  Now-Complete:
-    docker:
-      - image: alpine:3.7
-    steps:
-      - run:
-          name: Approval Complete
-          command: |
-            echo 'Do work once the approval has completed'
+            
+# version: 2.0
+# jobs:
+#   Hello-World:
+#     docker:
+#       - image: alpine:3.7
+#     docker:
+#       - image: circleci/python:3.7  # primary container for the build job
+#     steps:
+#       - run:
+#           name: Hello World
+#           command: |
+#             echo 'Hello World!'
+#             echo 'This is the delivery pipeline'
+#   I-Have-Code:
+#     docker:
+#       - image: alpine:3.7
+#     steps:
+#       - checkout
+#       - run:
+#           name: Code Has Arrived
+#           command: |
+#             ls -al
+#             echo '^^^That should look familiar^^^'
+#             python --version
+#             python3 hello.py
+#   Run-With-Node:
+#     docker:
+#       - image: circleci/node:10-browsers
+#     steps:
+#       - run:
+#           name: Running In A Container With Node
+#           command: |
+#             node -v
+#   Now-Complete:
+#     docker:
+#       - image: alpine:3.7
+#     steps:
+#       - run:
+#           name: Approval Complete
+#           command: |
+#             echo 'Do work once the approval has completed'
 
-workflows:
- version: 2
- Example_Workflow:
-   jobs:
-     - Hello-World
-     - I-Have-Code
-     - Run-With-Node:
-         requires:
-           - Hello-World
-     - Now-Complete
+# workflows:
+#  version: 2
+#  Example_Workflow:
+#    jobs:
+#      - Hello-World
+#      - I-Have-Code
+#      - Run-With-Node:
+#          requires:
+#            - Hello-World
+#      - Now-Complete
